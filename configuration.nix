@@ -51,6 +51,28 @@
   services.desktopManager.plasma6.enable = true;
   programs.hyprland.enable = true;
 
+  # Enable zsh
+  programs.zsh = {
+    enable = true;
+    autosuggestions.enable = true; # zsh-autosuggestions plugin
+    syntaxHighlighting = {
+      enable = true; # zsh-syntax-highlighting plugin
+      highlighters = [ "main" ];
+    };
+    ohMyZsh = {
+      enable = true;
+      plugins = [ "git" ]; # Add desired plugins
+    };
+  };
+
+
+
+  # Set Zsh as the default user shell
+  users.defaultUserShell = pkgs.zsh;
+
+# Hint electron apps to use Wayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "cz";
@@ -102,7 +124,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  	pkgs.neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  	pkgs.neovim
   	wget
 	pkgs.brave
 	pkgs.steam
@@ -110,6 +132,11 @@
 	pkgs.gnome.gdm
 	pkgs.htop
 	pkgs.hyprland
+	pkgs.neofetch
+	pkgs.alacritty
+	pkgs.zsh
+	pkgs.oh-my-zsh
+	pkgs.zsh-syntax-highlighting
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
