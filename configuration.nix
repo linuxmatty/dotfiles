@@ -46,9 +46,10 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
+  # Enable the KDE Plasma Desktop Environment & Hyprland window manager.
   services.xserver.displayManager.gdm.enable = true;
   services.desktopManager.plasma6.enable = true;
+  programs.hyprland.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -107,8 +108,8 @@
 	pkgs.steam
 	pkgs.flatpak
 	pkgs.gnome.gdm
-	pkgs.kitty
-	
+	pkgs.htop
+	pkgs.hyprland
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
