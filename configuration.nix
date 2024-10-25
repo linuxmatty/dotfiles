@@ -55,8 +55,8 @@
   programs.zsh = {
     enable = true;
     autosuggestions.enable = true; # zsh-autosuggestions plugin
-    syntaxHighlighting = {
-      enable = true; # zsh-syntax-highlighting plugin
+    syntaxHighlighting = { # zsh-syntax-highlighting plugin
+      enable = true; 
       highlighters = [ "main" ];
     };
     ohMyZsh = {
