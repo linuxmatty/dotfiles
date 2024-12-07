@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
@@ -46,26 +42,27 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment & Hyprland window manager.
+  # Enable the KDE Plasma Desktop Environment & Hyprland and i3 window managers.
   services.xserver.displayManager.gdm.enable = true;
   services.desktopManager.plasma6.enable = true;
-  programs.hyprland.enable = true;
+  services.xserver.windowManager.qtile.enable = true;
 
-  # Enable zsh
+  # Enable natural scrolling by default
+  services.xserver.libinput.naturalScrolling = true;
+
+  # Zsh
   programs.zsh = {
     enable = true;
     autosuggestions.enable = true; # zsh-autosuggestions plugin
-    syntaxHighlighting = { # zsh-syntax-highlighting plugin
-      enable = true; 
+    syntaxHighlighting = {
+      enable = true; # zsh-syntax-highlighting plugin
       highlighters = [ "main" ];
     };
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" ]; # Add desired plugins
     };
+    promptInit = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
   };
-
-
 
   # Set Zsh as the default user shell
   users.defaultUserShell = pkgs.zsh;
@@ -110,7 +107,7 @@
     description = "Matyáš Jan Kudláček";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    	thunderbird
+    #	thunderbird
 	
     ];
   };
@@ -131,13 +128,66 @@
 	pkgs.flatpak
 	pkgs.gnome.gdm
 	pkgs.htop
-	pkgs.hyprland
 	pkgs.neofetch
 	pkgs.alacritty
 	pkgs.zsh
 	pkgs.oh-my-zsh
 	pkgs.zsh-syntax-highlighting
+	pkgs.meslo-lgs-nf
+	pkgs.zsh-powerlevel10k
+	pkgs.font-awesome
+	pkgs.git
+	pkgs.libinput
+	pkgs.discord
+
+	pkgs.python3
+	pkgs.python312Packages.pip
+	pkgs.qtile
+	python312Packages.qtile-extras
+	pkgs.rofi
+	pkgs.lxde.lxsession
+	pkgs.picom
+	pkgs.networkmanagerapplet
+	pkgs.conky
+
+	pkgs.gnumake
+	pkgs.unzip
+	pkgs.libgcc
+	pkgs.ripgrep
+	pkgs.xclip
+	pkgs.libgccjit
+	pkgs.asciidoc-full-with-plugins
+	pkgs.haskellPackages.commonmark-cli
+	pkgs.marp-cli
+	pkgs.gimp
+	pkgs.nitrogen
   ];
+
+   # Deal with Nvidia's shit
+     
+     # Enable OpenGL
+     hardware.opengl = {
+       enable = true;
+       driSupport = true;
+       driSupport32Bit = true;
+     };
+
+     # Load nvidia driver for Xorg and Wayland
+     services.xserver.videoDrivers = ["nvidia"];
+
+     hardware.nvidia = {
+       modesetting.enable = true; # required
+       powerManagement.enable = false; # experimental, can cause sleep/suspend to stop working
+       powerManagement.finegrained = false;
+       open = false; # not supported by gpu
+       nvidiaSettings = true;
+       package = config.boot.kernelPackages.nvidiaPackages.stable;
+     };
+
+#    hardware.nvidia.prime = {
+#      sync.enable = true;
+#      nvidiaBusId = "PCI:01:00.0";
+ #   };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
