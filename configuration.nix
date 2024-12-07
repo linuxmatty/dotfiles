@@ -142,8 +142,8 @@
 
 	pkgs.python3
 	pkgs.python312Packages.pip
-	pkgs.qtile
-	python312Packages.qtile-extras
+	pkgs.python312Packages.qtile
+	pkgs.python312Packages.qtile-extras
 	pkgs.rofi
 	pkgs.lxde.lxsession
 	pkgs.picom
@@ -168,8 +168,6 @@
      # Enable OpenGL
      hardware.opengl = {
        enable = true;
-       driSupport = true;
-       driSupport32Bit = true;
      };
 
      # Load nvidia driver for Xorg and Wayland
